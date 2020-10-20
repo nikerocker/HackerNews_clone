@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+<h2><%= postDetail.title %></h2>
+<p><%= postDetail.description %></p>
+<span><%= postDetail.by %></span></br></br>
+
+<div class="comments">
+  <% 
+    if (typeof comments != 'undefined' && comments != null) {
+      comments.forEach( function ( commentData ) {
+        %>
+        <p> <%= commentData.commentBy %> : <%= commentData.comment %> 
+          <% if (commentData.commentBy === userDetails.Name) { %>
+            <input type="button" id="edit" value = "edit">
+          <% } %>
+        </p>
+        
+      <% });
+    } 
+  %>
+</div>
+
+<textarea id="comment" rows="3" cols="50"></textarea></br>
+<input type="hidden" id="postId" value="<%= postId %>">
+<input type="hidden" id="commentBy" value="<%= userDetails.Name %>">
+<input type="submit" value="Send" id="send"> 
+</body>
+<script type="text/javascript">
+  var socket = io();
+    $('#send').click(function(){
+      var comment = $('#comment').val();
+      var postId = $('#postId').val();
+      var commentBy = $('#commentBy').val();
+      if(comment != '') {
+        var data = {'comment': comment, 'commentBy': commentBy, 'postId': postId};
+        $('.comments').append("<p>"+ commentBy + ' : ' +comment+"</p>");
+        $('#comment').val('');
+      }
+      socket.emit('comment',data);
+    });
+
+    socket.on('comment',function(data) {
+      console.log('------data------', data)
+      var postId = "<%= postId %>";
+      if(postId == data.postId) {
+          $('.comments').append("<p>"+data.comment+"</p>");
+      }
+    });
+
+</script>
+</html>

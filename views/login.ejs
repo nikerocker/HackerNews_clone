@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+
+  EmailID: <input type= "text" id="email" ><br />
+  Password: <input type= "password" id="password" ><br />
+
+  <input type="submit" value="Login" id="login"> 
+</body>
+<script type="text/javascript">
+  var Users = require('./../schema/users');
+    $('#login').click(function(){
+      var email = $('#email').val();
+      var password = $('#password').val();
+      if(email != '') {
+        var data = {'EmailID': email, 'Password': password};
+        Users.find(data, function(err, userResult) {
+          console.log('=========',err, userResult)
+        })
+
+        $('.users').append("<p>" + ' Welcome : ' +name+"</p>");
+        $('#email').val('');
+        $('#password').val('');
+      }
+      
+    });
+
+</script>
+</html>
