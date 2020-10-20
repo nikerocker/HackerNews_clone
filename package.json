@@ -1,10 +1,10 @@
 {
-    "name": "Commenting-System",
+    "name": "HackerNews__clone",
     "version": "0.0.1",
     "dependencies": {
         "ejs": "^2.5.7",
-        "express": "*",
+        "express": "^4.17.1",
         "mongoose": "^4.13.7",
-        "socket.io": "*"
+        "socket.io": "^2.3.0"
     }
 }
